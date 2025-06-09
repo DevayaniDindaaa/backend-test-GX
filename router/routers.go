@@ -10,7 +10,12 @@ func SetupRoutes(app *fiber.App) {
 	public := app.Group("/api/v1")
 	public.Get("/bahanbaku", handler.GetAllBahanHandler)
 
+	public.Get("/tenagakerja", handler.GetAllTenagaKerjaHandler)
+
+	public.Get("/waktupembuatan", handler.GetAllWaktuKerjaHandler)
+
 	public.Get("/produk", handler.GetAllProdukHandler)
+	public.Post("/produk", handler.CreateProduk)
 
 	public.Get("/resep", handler.GetAllResepHandler)
 
