@@ -22,4 +22,5 @@ func SetupRoutes(app *fiber.App) {
 	public.Get("/resep", handler.GetAllResepHandler)
 
 	public.Get("/transaksi", handler.GetAllTransaksiHandler)
+	public.Post("/transaksi", handler.CreateTransaksiHandler)
 }

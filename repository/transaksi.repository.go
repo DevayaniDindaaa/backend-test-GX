@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/DevayaniDindaaa/backend-test-GX/db"
 	"github.com/DevayaniDindaaa/backend-test-GX/models"
 )
@@ -42,4 +44,25 @@ func (r *TransaksiRepository) GetAllTransaksi() ([]models.TransaksiPenjualan, er
 	}
 
 	return transaksiList, nil
+}
+
+func (r *TransaksiRepository) CreateTransaksi(transaksi *models.TransaksiPenjualan) error {
+	query := `
+		INSERT INTO transaksi (tanggal, id_produk, jumlah, total_harga, created_at, updated_at) 
+		VALUES (
+			NOW(),
+			$1,
+			$2,
+			(SELECT harga_jual FROM produk WHERE id_produk = $1) * $2,
+			NOW(),
+			NOW()
+		) RETURNING id_transaksi
+	`
+
+	err := db.DB.QueryRow(query, transaksi.IDProduk, transaksi.Jumlah, transaksi.TotalHarga).Scan(&transaksi.IDTransaksi)
+
+	if err != nil {
+		return fmt.Errorf("could not create transaksi: %v", err)
+	}
+	return nil
 }

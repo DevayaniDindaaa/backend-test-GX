@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"github.com/DevayaniDindaaa/backend-test-GX/models"
 	"github.com/DevayaniDindaaa/backend-test-GX/repository"
 )
@@ -15,4 +17,10 @@ func NewTransaksiService(repo *repository.TransaksiRepository) *TransaksiService
 
 func (s *TransaksiService) GetAllTransaksi() ([]models.TransaksiPenjualan, error) {
 	return s.TransaksiRepo.GetAllTransaksi()
+}
+
+func (s *TransaksiService) CreateTransaksi(transaksi *models.TransaksiPenjualan) error {
+	transaksi.CreatedAt = time.Now()
+	transaksi.UpdatedAt = time.Now()
+	return s.TransaksiRepo.CreateTransaksi(transaksi)
 }
