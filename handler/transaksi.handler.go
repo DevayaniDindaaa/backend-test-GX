@@ -6,11 +6,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetAllTransaksiHandler(c *fiber.Ctx) error {
-	repo := &repository.TransaksiRepository{}
-	service := service.NewTransaksiService(repo)
+var transaksiService = &service.TransaksiService{
+	TransaksiRepo: &repository.TransaksiRepository{},
+}
 
-	data, err := service.GetAllTransaksi()
+func GetAllTransaksiHandler(c *fiber.Ctx) error {
+	data, err := transaksiService.GetAllTransaksi()
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}

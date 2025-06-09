@@ -1,18 +1,26 @@
 package service
 
 import (
+	"time"
+
 	"github.com/DevayaniDindaaa/backend-test-GX/models"
 	"github.com/DevayaniDindaaa/backend-test-GX/repository"
 )
 
 type BahanBakuService struct {
-	Repo *repository.BahanBakuRepository
+	BahanRepo *repository.BahanBakuRepository
 }
 
 func NewBahanBakuService(repo *repository.BahanBakuRepository) *BahanBakuService {
-	return &BahanBakuService{Repo: repo}
+	return &BahanBakuService{BahanRepo: repo}
 }
 
 func (s *BahanBakuService) GetAllBahanBaku() ([]models.BahanBaku, error) {
-	return s.Repo.GetAllBahanBaku()
+	return s.BahanRepo.GetAllBahanBaku()
+}
+
+func (s *BahanBakuService) CreateBahanBaku(bahan *models.BahanBaku) error {
+	bahan.CreatedAt = time.Now()
+	bahan.UpdatedAt = time.Now()
+	return s.BahanRepo.CreateBahanBaku(bahan)
 }

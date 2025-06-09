@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	"github.com/DevayaniDindaaa/backend-test-GX/db"
 	"github.com/DevayaniDindaaa/backend-test-GX/models"
 )
@@ -40,4 +42,16 @@ func (r *TenagaKerjaRepository) GetAllTenagaKerja() ([]models.TenagaKerja, error
 	}
 
 	return bahanList, nil
+}
+
+func (r *TenagaKerjaRepository) CreateTenagaKerja(tenagaKerja *models.TenagaKerja) error {
+	query := `INSERT INTO tenaga_kerja (nama_tenaga, biaya_per_jam, created_at, updated_at) 
+              VALUES ($1, $2, NOW(), NOW()) RETURNING id_tenaga`
+
+	err := db.DB.QueryRow(query, tenagaKerja.NamaTenaga, tenagaKerja.BiayaPerJam).Scan(&tenagaKerja.IDTenaga)
+
+	if err != nil {
+		return fmt.Errorf("could not create tenaga kerja: %v", err)
+	}
+	return nil
 }

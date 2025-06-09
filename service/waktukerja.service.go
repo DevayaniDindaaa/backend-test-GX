@@ -6,13 +6,13 @@ import (
 )
 
 type WaktuKerjaService struct {
-	Repo *repository.WaktuKerjaRepository
+	WaktuRepo *repository.WaktuKerjaRepository
 }
 
 func NewWaktuKerjaService(repo *repository.WaktuKerjaRepository) *WaktuKerjaService {
-	return &WaktuKerjaService{Repo: repo}
+	return &WaktuKerjaService{WaktuRepo: repo}
 }
 
 func (s *WaktuKerjaService) GetAllWaktuKerja() ([]models.WaktuPembuatan, error) {
-	return s.Repo.GetAllWaktuKerja()
+	return s.WaktuRepo.GetAllWaktuKerja()
 }

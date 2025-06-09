@@ -6,13 +6,13 @@ import (
 )
 
 type ResepService struct {
-	Repo *repository.ResepRepository
+	ResepRepo *repository.ResepRepository
 }
 
 func NewResepService(repo *repository.ResepRepository) *ResepService {
-	return &ResepService{Repo: repo}
+	return &ResepService{ResepRepo: repo}
 }
 
 func (s *ResepService) GetAllResep() ([]models.ResepProduk, error) {
-	return s.Repo.GetAllResep()
+	return s.ResepRepo.GetAllResep()
 }

@@ -6,13 +6,13 @@ import (
 )
 
 type TransaksiService struct {
-	Repo *repository.TransaksiRepository
+	TransaksiRepo *repository.TransaksiRepository
 }
 
 func NewTransaksiService(repo *repository.TransaksiRepository) *TransaksiService {
-	return &TransaksiService{Repo: repo}
+	return &TransaksiService{TransaksiRepo: repo}
 }
 
 func (s *TransaksiService) GetAllTransaksi() ([]models.TransaksiPenjualan, error) {
-	return s.Repo.GetAllTransaksi()
+	return s.TransaksiRepo.GetAllTransaksi()
 }

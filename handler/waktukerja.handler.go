@@ -6,11 +6,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetAllWaktuKerjaHandler(c *fiber.Ctx) error {
-	repo := &repository.WaktuKerjaRepository{}
-	service := service.NewWaktuKerjaService(repo)
+var waktuService = &service.WaktuKerjaService{
+	WaktuRepo: &repository.WaktuKerjaRepository{},
+}
 
-	data, err := service.GetAllWaktuKerja()
+func GetAllWaktuKerjaHandler(c *fiber.Ctx) error {
+	data, err := waktuService.GetAllWaktuKerja()
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}

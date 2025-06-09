@@ -6,11 +6,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetAllResepHandler(c *fiber.Ctx) error {
-	repo := &repository.ResepRepository{}
-	service := service.NewResepService(repo)
+var resepService = &service.ResepService{
+	ResepRepo: &repository.ResepRepository{},
+}
 
-	data, err := service.GetAllResep()
+func GetAllResepHandler(c *fiber.Ctx) error {
+	data, err := resepService.GetAllResep()
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"error": err.Error()})
 	}
