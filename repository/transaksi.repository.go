@@ -48,7 +48,7 @@ func (r *TransaksiRepository) GetAllTransaksi() ([]models.TransaksiPenjualan, er
 
 func (r *TransaksiRepository) CreateTransaksi(transaksi *models.TransaksiPenjualan) error {
 	query := `
-		INSERT INTO transaksi (tanggal, id_produk, jumlah, total_harga, created_at, updated_at) 
+		INSERT INTO transaksi_penjualan (tanggal, id_produk, jumlah, total_harga, created_at, updated_at) 
 		VALUES (
 			NOW(),
 			$1,
@@ -56,10 +56,18 @@ func (r *TransaksiRepository) CreateTransaksi(transaksi *models.TransaksiPenjual
 			(SELECT harga_jual FROM produk WHERE id_produk = $1) * $2,
 			NOW(),
 			NOW()
-		) RETURNING id_transaksi
+		) RETURNING id_transaksi, tanggal, id_produk, jumlah, total_harga, created_at, updated_at
 	`
 
-	err := db.DB.QueryRow(query, transaksi.IDProduk, transaksi.Jumlah, transaksi.TotalHarga).Scan(&transaksi.IDTransaksi)
+	err := db.DB.QueryRow(query, transaksi.IDProduk, transaksi.Jumlah).Scan(
+		&transaksi.IDTransaksi,
+		&transaksi.Tanggal,
+		&transaksi.IDProduk,
+		&transaksi.Jumlah,
+		&transaksi.TotalHarga,
+		&transaksi.CreatedAt,
+		&transaksi.UpdatedAt,
+	)
 
 	if err != nil {
 		return fmt.Errorf("could not create transaksi: %v", err)
